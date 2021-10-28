@@ -35,19 +35,19 @@
             System.Windows.Forms.Label sOLUONGLabel;
             System.Windows.Forms.Label mANCCLabel;
             this.txtMaHang = new System.Windows.Forms.TextBox();
+            this.mATHANGBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet = new QLMATHANG.DataSet();
             this.txtTenHang = new System.Windows.Forms.TextBox();
             this.timeNhap = new System.Windows.Forms.DateTimePicker();
             this.txtSoLuong = new System.Windows.Forms.TextBox();
             this.cbNCC = new System.Windows.Forms.ComboBox();
+            this.nCCBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.mATHANGBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet = new QLMATHANG.DataSet();
             this.mATHANGTableAdapter = new QLMATHANG.DataSetTableAdapters.MATHANGTableAdapter();
             this.tableAdapterManager = new QLMATHANG.DataSetTableAdapters.TableAdapterManager();
-            this.nCCBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nCCTableAdapter = new QLMATHANG.DataSetTableAdapters.NCCTableAdapter();
             this.mATHANGDataGridView = new System.Windows.Forms.DataGridView();
             this.mAHANGDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -119,6 +119,16 @@
             this.txtMaHang.Size = new System.Drawing.Size(284, 20);
             this.txtMaHang.TabIndex = 2;
             // 
+            // mATHANGBindingSource
+            // 
+            this.mATHANGBindingSource.DataMember = "MATHANG";
+            this.mATHANGBindingSource.DataSource = this.dataSet;
+            // 
+            // dataSet
+            // 
+            this.dataSet.DataSetName = "DataSet";
+            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
             // txtTenHang
             // 
             this.txtTenHang.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mATHANGBindingSource, "TENHANG", true));
@@ -146,13 +156,19 @@
             // cbNCC
             // 
             this.cbNCC.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mATHANGBindingSource, "MANCC", true));
-            this.cbNCC.DataSource = this.nCCBindingSource;
-            this.cbNCC.DisplayMember = "TENNCC";
+            this.cbNCC.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dataSet, "NCC.TENNCC", true));
             this.cbNCC.FormattingEnabled = true;
+            this.cbNCC.Items.AddRange(new object[] {
+            "Vinamilk",
+            "Netstel",
+            "KIDO",
+            "KimDan",
+            "THTRUE"});
             this.cbNCC.Location = new System.Drawing.Point(178, 201);
             this.cbNCC.Name = "cbNCC";
             this.cbNCC.Size = new System.Drawing.Size(284, 21);
             this.cbNCC.TabIndex = 10;
+            
             // 
             // btnAdd
             // 
@@ -193,16 +209,6 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "DANH SÁCH MẶT HÀNG";
             // 
-            // mATHANGBindingSource
-            // 
-            this.mATHANGBindingSource.DataMember = "MATHANG";
-            this.mATHANGBindingSource.DataSource = this.dataSet;
-            // 
-            // dataSet
-            // 
-            this.dataSet.DataSetName = "DataSet";
-            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // mATHANGTableAdapter
             // 
             this.mATHANGTableAdapter.ClearBeforeFill = true;
@@ -220,8 +226,6 @@
             // 
             // mATHANGDataGridView
             // 
-            this.mATHANGDataGridView.AllowUserToAddRows = false;
-            this.mATHANGDataGridView.AllowUserToDeleteRows = false;
             this.mATHANGDataGridView.AutoGenerateColumns = false;
             this.mATHANGDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.mATHANGDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -234,9 +238,9 @@
             this.mATHANGDataGridView.DataSource = this.mATHANGBindingSource;
             this.mATHANGDataGridView.Location = new System.Drawing.Point(34, 242);
             this.mATHANGDataGridView.Name = "mATHANGDataGridView";
-            this.mATHANGDataGridView.ReadOnly = true;
             this.mATHANGDataGridView.Size = new System.Drawing.Size(594, 220);
             this.mATHANGDataGridView.TabIndex = 14;
+            this.mATHANGDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mATHANGDataGridView_CellContentClick);
             // 
             // mAHANGDataGridViewTextBoxColumn
             // 

@@ -37,29 +37,25 @@ namespace QLMATHANG
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dataSet1.NCC' table. You can move, or remove it, as needed.
-            this.nCCTableAdapter.Fill(this.dataSet1.NCC);
-            // TODO: This line of code loads data into the 'dataSet.MATHANG' table. You can move, or remove it, as needed.
-            this.mATHANGTableAdapter.Fill(this.dataSet.MATHANG);
+            
             loadData();
         }
 
-        DataAccess da = new DataAccess();
+        DataAccess data = new DataAccess();
         String query;
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             query = "insert into MATHANG (MAHANG, TENHANG, NGAYNHAP, SOLUONG, MANCC) values ('" + txtMaHang.Text + "', '" + txtTenHang.Text +"', '" + timeNhap.Value +"', '" + txtSoLuong.Text.ToString() +"', '"+ cbNCC.Text +"' )";
-            da.setData(query);
+            data.setData(query);
             clearAll();
             loadData();
         }
 
         public void loadData()
         {
-            query = "select * from MATHANG";
-            DataSet ds = da.getData(query);
-            mATHANGDataGridView.DataSource = ds.Tables[0];
+            List<Item> itemList = data.getAllItems();
+            mATHANGDataGridView.DataSource = itemList;
         }
 
         public void clearAll()
@@ -71,43 +67,21 @@ namespace QLMATHANG
             cbNCC.SelectedIndex = -1;
         }
 
-        private void fillByToolStripButton_Click(object sender, EventArgs e)
+        public void getDataToCB()
         {
             try
             {
-                this.mATHANGTableAdapter.FillBy(this.dataSet.MATHANG);
+                string query = "select MANCC, TENNCC from NCC";
+                data.fillDataToComboBox(query);
+                DataSet ds = new DataSet();
+                cbNCC.DisplayMember = "TENNCC";
+                cbNCC.ValueMember = "MANCC";
+                cbNCC.DataSource = ds.Tables["NCC"];
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                MessageBox.Show("Error occured!");
             }
-
-        }
-
-        private void fillBy1ToolStripButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.mATHANGTableAdapter.FillBy1(this.dataSet.MATHANG);
-            }
-            catch (System.Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-            }
-
-        }
-
-        private void fillBy1ToolStripButton_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                this.mATHANGTableAdapter.FillBy1(this.dataSet1.MATHANG);
-            }
-            catch (System.Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-            }
-
         }
     }
 }
